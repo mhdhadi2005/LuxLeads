@@ -29,7 +29,7 @@ const [businessData, setBusinessData] = useState([]);
 
 useEffect(() => {
   const fetchExcelData = async () => {
-    const response = await fetch("webdata.xlsx"); 
+    const response = await fetch("/webdata.xlsx"); 
     const arrayBuffer = await response.arrayBuffer();
     const workbook = XLSX.read(arrayBuffer, { type: "array" });
     const sheetName = workbook.SheetNames[0];
