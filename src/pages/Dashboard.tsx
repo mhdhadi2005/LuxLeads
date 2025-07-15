@@ -1064,7 +1064,7 @@ const businessData = [
 { name: "PRIVATE", phone: "+447590264214", description: "PRIVATE OWNER" },
 { name: "PRIVATE", phone: "+393318581957", description: "PRIVATE OWNER" },
 { name: "PRIVATE", phone: "+34642429393", description: "PRIVATE OWNER" }
-];
+]];
 
 interface Contact {
   name: string;
