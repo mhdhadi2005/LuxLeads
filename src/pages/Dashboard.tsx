@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
@@ -470,6 +470,35 @@ const Dashboard = () => {
     setFilteredData(filtered);
   };
 
+  // Enhanced filter handler for FilterPanel
+  const handleAdvancedFilterChange = (newFilters: Record<string, any>) => {
+    let filtered = data.length > 0 ? data : processedData;
+    
+    // Apply each filter
+    Object.keys(newFilters).forEach(column => {
+      const filterValue = newFilters[column];
+      
+      if (filterValue !== null && filterValue !== undefined && filterValue !== '') {
+        filtered = filtered.filter(contact => {
+          const cellValue = contact[column as keyof Contact];
+          
+          if (typeof filterValue === 'object' && (filterValue.min !== undefined || filterValue.max !== undefined)) {
+            // Handle number range filters
+            const numValue = parseFloat(cellValue?.toString() || '0');
+            if (filterValue.min !== undefined && numValue < filterValue.min) return false;
+            if (filterValue.max !== undefined && numValue > filterValue.max) return false;
+            return true;
+          } else {
+            // Handle text filters
+            return cellValue?.toString().toLowerCase().includes(filterValue.toString().toLowerCase());
+          }
+        });
+      }
+    });
+    
+    setFilteredData(filtered);
+  };
+
   const resetFilters = () => {
     setFilters({ category: "all", search: "", country: "all" });
     setFilteredData(data.length > 0 ? data : processedData);
@@ -540,7 +569,7 @@ const Dashboard = () => {
                 <FilterPanel
                   columns={['name', 'phone', 'description', 'category']}
                   data={displayData}
-                  onFilterChange={() => {}}
+                  onFilterChange={handleAdvancedFilterChange}
                 />
               </CardContent>
             </Card>

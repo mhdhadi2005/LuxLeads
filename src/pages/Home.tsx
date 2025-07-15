@@ -34,10 +34,17 @@ const Home = () => {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-900 via-black to-gray-800 relative overflow-hidden">
-      {/* Animated Background Elements */}
-      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-purple-900/20 via-transparent to-transparent animate-pulse"></div>
-      <div className="absolute top-1/4 left-1/4 w-72 h-72 bg-purple-500/10 rounded-full filter blur-xl animate-bounce" style={{ animationDuration: "6s" }}></div>
-      <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-blue-500/10 rounded-full filter blur-xl animate-bounce" style={{ animationDuration: "8s", animationDelay: "2s" }}></div>
+      {/* Multiple Animated Background Elements */}
+      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-purple-900/30 via-transparent to-transparent animate-pulse"></div>
+      <div className="absolute top-1/4 left-1/4 w-72 h-72 bg-purple-500/20 rounded-full filter blur-xl animate-bounce" style={{ animationDuration: "6s" }}></div>
+      <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-blue-500/15 rounded-full filter blur-xl animate-bounce" style={{ animationDuration: "8s", animationDelay: "2s" }}></div>
+      <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-full h-full bg-gradient-radial from-transparent via-purple-500/5 to-transparent animate-pulse" style={{ animationDuration: "4s" }}></div>
+      
+      {/* Floating particles */}
+      <div className="absolute top-20 left-20 w-2 h-2 bg-white/30 rounded-full animate-ping" style={{ animationDelay: "1s" }}></div>
+      <div className="absolute top-40 right-32 w-1 h-1 bg-purple-400/50 rounded-full animate-ping" style={{ animationDelay: "3s" }}></div>
+      <div className="absolute bottom-32 left-16 w-1.5 h-1.5 bg-blue-400/40 rounded-full animate-ping" style={{ animationDelay: "5s" }}></div>
+      <div className="absolute bottom-64 right-20 w-1 h-1 bg-white/20 rounded-full animate-ping" style={{ animationDelay: "7s" }}></div>
 
       {/* Main Content Container */}
       <div className="container mx-auto px-4 py-8 min-h-screen flex flex-col">
@@ -58,32 +65,38 @@ const Home = () => {
 
         {/* Central Dashboard Section */}
         <div className="flex-1 flex items-center justify-center mb-16">
-          <div className="bg-white/10 backdrop-blur-lg rounded-3xl p-8 lg:p-12 text-center animate-scale-in border border-white/20 shadow-2xl" style={{ animationDelay: "0.3s" }}>
-            <h2 className="text-3xl lg:text-4xl font-bold text-white mb-8 tracking-tight">
-              Access Your Dashboard
-            </h2>
+          <div className="bg-gradient-to-br from-white/15 to-white/5 backdrop-blur-xl rounded-3xl p-8 lg:p-12 text-center animate-scale-in border border-white/30 shadow-2xl hover:shadow-purple-500/20 transition-all duration-500 hover:scale-105" style={{ animationDelay: "0.3s" }}>
+            <div className="relative">
+              {/* Glowing effect behind title */}
+              <div className="absolute inset-0 bg-gradient-to-r from-purple-400 to-blue-400 rounded-xl blur-xl opacity-20 animate-pulse"></div>
+              <h2 className="relative text-3xl lg:text-4xl font-bold text-white mb-8 tracking-tight">
+                Access Your Dashboard
+              </h2>
+            </div>
             
-            <div className="space-y-4">
+            <div className="space-y-6">
               <Button
                 onClick={() => setIsCodeModalOpen(true)}
                 size="lg"
-                className="w-full lg:w-auto uppercase tracking-wide font-semibold text-white px-12 py-4 rounded-xl bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700 shadow-xl hover:shadow-2xl transition-all duration-300 transform hover:scale-105">
-                Launch Dashboard
+                className="group w-full lg:w-auto uppercase tracking-wide font-semibold text-white px-12 py-4 rounded-xl bg-gradient-to-r from-purple-600 via-purple-500 to-blue-600 hover:from-purple-700 hover:via-purple-600 hover:to-blue-700 shadow-xl hover:shadow-purple-500/50 transition-all duration-500 transform hover:scale-110 hover:-rotate-1 relative overflow-hidden">
+                <span className="absolute inset-0 bg-gradient-to-r from-white/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></span>
+                <span className="relative">🚀 Launch Dashboard</span>
               </Button>
               
-              <div className="flex items-center justify-center space-x-2 text-gray-300">
-                <div className="h-px bg-gray-400 flex-1"></div>
-                <span className="px-3 text-sm">or</span>
-                <div className="h-px bg-gray-400 flex-1"></div>
+              <div className="flex items-center justify-center space-x-4 text-gray-300">
+                <div className="h-px bg-gradient-to-r from-transparent via-gray-400 to-transparent flex-1"></div>
+                <span className="px-4 text-sm font-medium bg-white/10 rounded-full border border-white/20">or</span>
+                <div className="h-px bg-gradient-to-r from-transparent via-gray-400 to-transparent flex-1"></div>
               </div>
               
               <Button
                 onClick={handleWhatsAppRedirect}
                 variant="outline"
                 size="lg"
-                className="w-full lg:w-auto border-2 border-green-500 text-green-400 hover:bg-green-500 hover:text-white px-8 py-4 rounded-xl transition-all duration-300 transform hover:scale-105">
-                <MessageCircle className="mr-2 h-5 w-5" />
-                Don't Have Code? Contact Us
+                className="group w-full lg:w-auto border-2 border-green-500/70 bg-green-500/10 text-green-400 hover:bg-green-500 hover:text-white hover:border-green-400 px-8 py-4 rounded-xl transition-all duration-500 transform hover:scale-110 hover:rotate-1 relative overflow-hidden shadow-lg hover:shadow-green-500/30">
+                <span className="absolute inset-0 bg-gradient-to-r from-green-400/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></span>
+                <MessageCircle className="mr-2 h-5 w-5 relative z-10" />
+                <span className="relative z-10">💬 Don't Have Code? Contact Us</span>
               </Button>
             </div>
           </div>
@@ -94,16 +107,23 @@ const Home = () => {
           {features.map((feature, index) => (
             <Card 
               key={index} 
-              className="bg-white/10 backdrop-blur-sm border border-white/20 hover:bg-white/20 transition-all duration-500 hover:scale-110 hover:rotate-1 animate-fade-in"
+              className="group bg-gradient-to-br from-white/15 to-white/5 backdrop-blur-xl border border-white/30 hover:border-purple-400/50 transition-all duration-700 hover:scale-110 hover:rotate-2 animate-fade-in relative overflow-hidden shadow-xl hover:shadow-purple-500/30"
               style={{ animationDelay: `${0.9 + index * 0.2}s` }}
             >
-              <div className="p-6 lg:p-8">
-                <div className="bg-gradient-to-r from-purple-600 to-blue-600 text-white px-4 py-2 rounded-lg mb-4 inline-block shadow-lg">
+              {/* Glowing background effect */}
+              <div className="absolute inset-0 bg-gradient-to-br from-purple-500/10 to-blue-500/10 opacity-0 group-hover:opacity-100 transition-opacity duration-700"></div>
+              
+              <div className="relative p-6 lg:p-8">
+                <div className="bg-gradient-to-r from-purple-600 via-purple-500 to-blue-600 text-white px-4 py-3 rounded-xl mb-6 inline-block shadow-lg transform group-hover:scale-105 transition-transform duration-500">
                   <h3 className="font-bold text-sm tracking-wider">{feature.title}</h3>
                 </div>
-                <p className="text-gray-200 text-sm lg:text-base leading-relaxed">
+                <p className="text-gray-200 text-sm lg:text-base leading-relaxed group-hover:text-white transition-colors duration-500">
                   {feature.description}
                 </p>
+                
+                {/* Decorative elements */}
+                <div className="absolute top-4 right-4 w-2 h-2 bg-purple-400/50 rounded-full animate-pulse opacity-0 group-hover:opacity-100 transition-opacity duration-700"></div>
+                <div className="absolute bottom-4 left-4 w-1 h-1 bg-blue-400/50 rounded-full animate-ping opacity-0 group-hover:opacity-100 transition-opacity duration-700" style={{ animationDelay: "0.5s" }}></div>
               </div>
             </Card>
           ))}
