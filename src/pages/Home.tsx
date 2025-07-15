@@ -14,7 +14,7 @@ const Home = () => {
   };
 
   const handleWhatsAppRedirect = () => {
-    window.open("https://wa.me/YOUR_WHATSAPP_NUMBER", "_blank");
+    window.open("https://wa.me/message/67X542H3PRCLJ1", "_blank");
   };
 
   const features = [
