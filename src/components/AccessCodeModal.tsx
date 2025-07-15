@@ -5,7 +5,7 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/u
 import { useToast } from "@/hooks/use-toast";
 
 // UPDATE THIS CODE HERE - Change the access code below
-const ACCESS_CODE = "123456"; // <-- Update this 6-digit code
+const ACCESS_CODE = "777777"; // <-- Update this 6-digit code
 
 interface AccessCodeModalProps {
   isOpen: boolean;
