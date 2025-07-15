@@ -50,14 +50,14 @@ const Home = () => {
       <div className="container mx-auto px-4 py-8 min-h-screen flex flex-col">
         
         {/* Header Section with Logo */}
-        <div className="flex flex-col items-center text-center mb-16 pt-8">
+        <div className="flex flex-col items-center text-center mb-16 pt-16">
           <div className="animate-scale-in mb-8">
             <img 
               src="/lovable-uploads/7b56d562-80f1-496d-ab0e-5c5e0f802e3c.png" 
               alt="LuxLeads Logo" 
-              className="h-24 md:h-32 lg:h-40 w-auto mx-auto mb-4 drop-shadow-2xl"
+              className="h-24 md:h-32 lg:h-24 w-auto mx-auto mb-4 drop-shadow-2xl"
             />
-            <p className="text-sm text-gray-300 tracking-widest mt-4">
+            <p className="text-md text-gray-300 tracking-widest mt-4">
               CRAFTED FOR CLOSERS
             </p>
           </div>
@@ -96,7 +96,7 @@ const Home = () => {
                 className="group w-full lg:w-auto border-2 border-green-500/70 bg-green-500/10 text-green-400 hover:bg-green-500 hover:text-white hover:border-green-400 px-8 py-4 rounded-xl transition-all duration-500 transform hover:scale-110 hover:rotate-1 relative overflow-hidden shadow-lg hover:shadow-green-500/30">
                 <span className="absolute inset-0 bg-gradient-to-r from-green-400/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></span>
                 <MessageCircle className="mr-2 h-5 w-5 relative z-10" />
-                <span className="relative z-10">💬 Don't Have Code? Contact Us</span>
+                <span className="relative z-10">Don't Have Code? Contact Us</span>
               </Button>
             </div>
           </div>
@@ -117,7 +117,7 @@ const Home = () => {
                 <div className="bg-gradient-to-r from-purple-600 via-purple-500 to-blue-600 text-white px-4 py-3 rounded-xl mb-6 inline-block shadow-lg transform group-hover:scale-105 transition-transform duration-500">
                   <h3 className="font-bold text-sm tracking-wider">{feature.title}</h3>
                 </div>
-                <p className="text-gray-200 text-sm lg:text-base leading-relaxed group-hover:text-white transition-colors duration-500">
+                <p className="text-gray-400 text-sm lg:text-base leading-relaxed group-hover:text-black transition-colors duration-500">
                   {feature.description}
                 </p>
                 
