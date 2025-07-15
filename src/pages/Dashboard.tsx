@@ -15,6 +15,16 @@ import * as XLSX from "xlsx";
 
 const luxLeadsLogo = "/lovable-uploads/72645a97-d464-43a4-b3ff-822d41ea5a10.png";
 
+interface Contact {
+  name: string;
+  phone: string;
+  description: string;
+  category?: string;
+}
+
+const Dashboard = () => {
+  const navigate = useNavigate();
+
 const [businessData, setBusinessData] = useState([]);
 
 useEffect(() => {
@@ -36,16 +46,6 @@ useEffect(() => {
   fetchExcelData();
 }, []);
 
-
-interface Contact {
-  name: string;
-  phone: string;
-  description: string;
-  category?: string;
-}
-
-const Dashboard = () => {
-  const navigate = useNavigate();
   const [data, setData] = useState<Contact[]>([]);
   const [filteredData, setFilteredData] = useState<Contact[]>([]);
   const [activeTab, setActiveTab] = useState("overview");
