@@ -15,7 +15,7 @@ const luxLeadsLogo = "/lovable-uploads/72645a97-d464-43a4-b3ff-822d41ea5a10.png"
 
 
 const businessData = [
-  [
+  
   { name: "Autowelt Schweiz AG", phone: "+41763281091", description: "CAR DEALERSHIP" },
   { name: "Alpen Classic Automobile", phone: "+4915140322315", description: "CAR DEALERSHIP" },
   { name: "Areacars Exclusive GmbH", phone: "+491741333344", description: "CAR DEALERSHIP" },
@@ -1064,7 +1064,7 @@ const businessData = [
 { name: "PRIVATE", phone: "+447590264214", description: "PRIVATE OWNER" },
 { name: "PRIVATE", phone: "+393318581957", description: "PRIVATE OWNER" },
 { name: "PRIVATE", phone: "+34642429393", description: "PRIVATE OWNER" }
-]];
+];
 
 interface Contact {
   name: string;
