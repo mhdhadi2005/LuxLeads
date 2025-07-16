@@ -5,7 +5,7 @@ Luxury by Mohammed is a sleek, modern web application built with cutting-edge fr
 
 Live Demo
 Explore the live project here:
-https://lovable.dev/projects/637267f6-eb4f-4c8e-9b7e-77920365f9f4
+https://www.luxleads.me/
 
 Technologies Used
 Vite – fast frontend build tool
