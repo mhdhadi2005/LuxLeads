@@ -1,11 +1,9 @@
 
 import { useState } from 'react';
-import { Card } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Badge } from '@/components/ui/badge';
-import { Filter, X, RefreshCw } from 'lucide-react';
+import { Search, X, Sparkles } from 'lucide-react';
 
 interface FilterPanelProps {
   columns: string[];
@@ -14,155 +12,174 @@ interface FilterPanelProps {
 }
 
 export const FilterPanel = ({ columns, data, onFilterChange }: FilterPanelProps) => {
-  const [filters, setFilters] = useState<Record<string, any>>({});
-  const [isExpanded, setIsExpanded] = useState(false);
+  const [searchTerm, setSearchTerm] = useState('');
+  const [activeFilters, setActiveFilters] = useState<Record<string, string>>({});
 
-  const getUniqueValues = (column: string) => {
-    const values = data.map(row => row[column]).filter(val => val !== null && val !== undefined);
-    return [...new Set(values)].slice(0, 20); // Limit to 20 unique values for performance
-  };
-
-  const getColumnType = (column: string) => {
-    const sampleValue = data.find(row => row[column] !== null && row[column] !== undefined)?.[column];
-    if (typeof sampleValue === 'number') return 'number';
-    if (sampleValue instanceof Date || /date/i.test(column)) return 'date';
-    return 'text';
-  };
-
-  const updateFilter = (column: string, value: any) => {
-    const newFilters = { ...filters };
-    if (value === 'all' || value === null || value === undefined) {
-      delete newFilters[column];
-    } else {
-      newFilters[column] = value;
+  const handleSearch = (value: string) => {
+    setSearchTerm(value);
+    
+    // Create a simple global search filter
+    const filters: Record<string, any> = {};
+    
+    if (value.trim()) {
+      // Apply search to all text columns
+      columns.forEach(column => {
+        if (column !== 'phone') { // Keep phone searches more specific
+          filters[column] = value.trim();
+        }
+      });
     }
-    setFilters(newFilters);
-    onFilterChange(newFilters);
+    
+    // Add any active category filters
+    Object.keys(activeFilters).forEach(key => {
+      filters[key] = activeFilters[key];
+    });
+    
+    onFilterChange(filters);
   };
 
-  const clearFilter = (column: string) => {
-    updateFilter(column, null);
+  const addQuickFilter = (column: string, value: string) => {
+    const newActiveFilters = { ...activeFilters, [column]: value };
+    setActiveFilters(newActiveFilters);
+    
+    const filters: Record<string, any> = { ...newActiveFilters };
+    
+    // Also include search if active
+    if (searchTerm.trim()) {
+      columns.forEach(col => {
+        if (col !== 'phone') {
+          filters[col] = searchTerm.trim();
+        }
+      });
+    }
+    
+    onFilterChange(filters);
   };
 
-  const clearAllFilters = () => {
-    setFilters({});
+  const removeFilter = (column: string) => {
+    const newActiveFilters = { ...activeFilters };
+    delete newActiveFilters[column];
+    setActiveFilters(newActiveFilters);
+    
+    const filters: Record<string, any> = { ...newActiveFilters };
+    
+    // Keep search if active
+    if (searchTerm.trim()) {
+      columns.forEach(col => {
+        if (col !== 'phone') {
+          filters[col] = searchTerm.trim();
+        }
+      });
+    }
+    
+    onFilterChange(filters);
+  };
+
+  const clearAll = () => {
+    setSearchTerm('');
+    setActiveFilters({});
     onFilterChange({});
   };
 
-  const activeFilterCount = Object.keys(filters).length;
+  // Get unique categories for quick filters
+  const categories = data.length > 0 ? [...new Set(data.map(item => item.category).filter(Boolean))] : [];
 
   return (
-    <Card className="mb-6 bg-slate-800/50 border-slate-700">
-      <div className="p-4 border-b border-slate-700">
-        <div className="flex items-center justify-between">
-          <div className="flex items-center space-x-3">
-            <Filter className="h-5 w-5 text-blue-400" />
-            <h3 className="text-lg font-semibold text-white">Advanced Filters</h3>
-            {activeFilterCount > 0 && (
-              <Badge variant="secondary" className="bg-blue-500/20 text-blue-400">
-                {activeFilterCount} active
-              </Badge>
-            )}
-          </div>
-          <div className="flex items-center space-x-2">
-            {activeFilterCount > 0 && (
-              <Button
-                variant="ghost"
-                size="sm"
-                onClick={clearAllFilters}
-                className="text-slate-400 hover:text-white"
-              >
-                <RefreshCw className="h-4 w-4 mr-2" />
-                Clear All
-              </Button>
-            )}
-            <Button
-              variant="ghost"
-              size="sm"
-              onClick={() => setIsExpanded(!isExpanded)}
-              className="text-slate-400 hover:text-white"
-            >
-              {isExpanded ? 'Collapse' : 'Expand'}
-            </Button>
-          </div>
-        </div>
+    <div className="space-y-4">
+      {/* Magic Search */}
+      <div className="relative">
+        <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-purple-400" />
+        <Input
+          placeholder="✨ Search anything... names, phones, descriptions..."
+          value={searchTerm}
+          onChange={(e) => handleSearch(e.target.value)}
+          className="pl-10 bg-gradient-to-r from-purple-900/30 to-blue-900/30 border-purple-500/30 text-white placeholder:text-purple-300 focus:border-purple-400 transition-all duration-300 h-12 text-lg"
+        />
+        {searchTerm && (
+          <Button
+            variant="ghost"
+            size="sm"
+            onClick={() => handleSearch('')}
+            className="absolute right-2 top-1/2 transform -translate-y-1/2 h-8 w-8 p-0 text-purple-400 hover:text-white"
+          >
+            <X className="h-4 w-4" />
+          </Button>
+        )}
       </div>
 
-      {isExpanded && (
-        <div className="p-4 space-y-4">
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-            {columns.map((column) => {
-              const columnType = getColumnType(column);
-              const uniqueValues = getUniqueValues(column);
-              const hasFilter = filters[column];
-
-              return (
-                <div key={column} className="space-y-2">
-                  <div className="flex items-center justify-between">
-                    <label className="text-sm font-medium text-slate-300">{column}</label>
-                    {hasFilter && (
-                      <Button
-                        variant="ghost"
-                        size="sm"
-                        onClick={() => clearFilter(column)}
-                        className="h-6 w-6 p-0 text-slate-400 hover:text-white"
-                      >
-                        <X className="h-3 w-3" />
-                      </Button>
-                    )}
-                  </div>
-
-                  {columnType === 'text' && uniqueValues.length < 10 ? (
-                    <Select value={filters[column] || 'all'} onValueChange={(value) => updateFilter(column, value)}>
-                      <SelectTrigger className="bg-slate-700 border-slate-600 text-white">
-                        <SelectValue placeholder={`Select ${column}`} />
-                      </SelectTrigger>
-                      <SelectContent className="bg-slate-700 border-slate-600">
-                        <SelectItem value="all">All</SelectItem>
-                        {uniqueValues.map((value) => (
-                          <SelectItem key={value} value={value.toString()}>
-                            {value.toString()}
-                          </SelectItem>
-                        ))}
-                      </SelectContent>
-                    </Select>
-                  ) : columnType === 'number' ? (
-                    <div className="flex space-x-2">
-                      <Input
-                        type="number"
-                        placeholder="Min"
-                        value={filters[column]?.min || ''}
-                        onChange={(e) => updateFilter(column, { 
-                          ...filters[column], 
-                          min: e.target.value ? parseInt(e.target.value) : undefined 
-                        })}
-                        className="bg-slate-700 border-slate-600 text-white placeholder:text-slate-400"
-                      />
-                      <Input
-                        type="number"
-                        placeholder="Max"
-                        value={filters[column]?.max || ''}
-                        onChange={(e) => updateFilter(column, { 
-                          ...filters[column], 
-                          max: e.target.value ? parseInt(e.target.value) : undefined 
-                        })}
-                        className="bg-slate-700 border-slate-600 text-white placeholder:text-slate-400"
-                      />
-                    </div>
-                  ) : (
-                    <Input
-                      placeholder={`Search ${column}...`}
-                      value={filters[column] || ''}
-                      onChange={(e) => updateFilter(column, e.target.value)}
-                      className="bg-slate-700 border-slate-600 text-white placeholder:text-slate-400"
-                    />
-                  )}
-                </div>
-              );
-            })}
+      {/* Quick Category Filters */}
+      {categories.length > 0 && (
+        <div className="space-y-2">
+          <div className="flex items-center gap-2">
+            <Sparkles className="h-4 w-4 text-purple-400" />
+            <span className="text-sm text-purple-300 font-medium">Quick Filters</span>
+          </div>
+          <div className="flex flex-wrap gap-2">
+            {categories.map((category) => (
+              <Button
+                key={category}
+                variant={activeFilters.category === category ? "default" : "outline"}
+                size="sm"
+                onClick={() => 
+                  activeFilters.category === category 
+                    ? removeFilter('category')
+                    : addQuickFilter('category', category)
+                }
+                className={`transition-all duration-300 ${
+                  activeFilters.category === category
+                    ? 'bg-purple-500 text-white shadow-lg shadow-purple-500/30'
+                    : 'border-purple-500/30 text-purple-300 hover:bg-purple-500/20 hover:border-purple-400'
+                }`}
+              >
+                {category}
+                {activeFilters.category === category && (
+                  <X className="ml-2 h-3 w-3" />
+                )}
+              </Button>
+            ))}
           </div>
         </div>
       )}
-    </Card>
+
+      {/* Active Filters Display */}
+      {(searchTerm || Object.keys(activeFilters).length > 0) && (
+        <div className="flex items-center gap-2 flex-wrap">
+          <span className="text-sm text-gray-400">Active filters:</span>
+          
+          {searchTerm && (
+            <Badge variant="secondary" className="bg-purple-500/20 text-purple-300 border-purple-500/30">
+              Search: "{searchTerm}"
+              <X 
+                className="ml-2 h-3 w-3 cursor-pointer hover:text-white" 
+                onClick={() => handleSearch('')}
+              />
+            </Badge>
+          )}
+          
+          {Object.entries(activeFilters).map(([key, value]) => (
+            <Badge 
+              key={key} 
+              variant="secondary" 
+              className="bg-blue-500/20 text-blue-300 border-blue-500/30"
+            >
+              {key}: {value}
+              <X 
+                className="ml-2 h-3 w-3 cursor-pointer hover:text-white" 
+                onClick={() => removeFilter(key)}
+              />
+            </Badge>
+          ))}
+          
+          <Button
+            variant="ghost"
+            size="sm"
+            onClick={clearAll}
+            className="text-gray-400 hover:text-white text-xs"
+          >
+            Clear All
+          </Button>
+        </div>
+      )}
+    </div>
   );
 };
