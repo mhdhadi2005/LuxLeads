@@ -157,117 +157,159 @@ useEffect(() => {
     : processedData;
   
   return (
-    <div className="min-h-screen bg-gradient-background" style={{ backgroundImage: `url(${customBG})` }}>
-      {/* Colorful Header */}
-      <div className="bg-[#555179] text-white shadow-colorful">
+    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-purple-900/20 to-slate-900 relative overflow-hidden">
+      {/* Animated Background Elements */}
+      <div className="absolute inset-0 overflow-hidden pointer-events-none">
+        <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-purple-500/10 rounded-full blur-3xl animate-pulse"></div>
+        <div className="absolute top-3/4 right-1/4 w-96 h-96 bg-blue-500/10 rounded-full blur-3xl animate-pulse delay-1000"></div>
+        <div className="absolute top-1/2 left-1/2 w-96 h-96 bg-indigo-500/10 rounded-full blur-3xl animate-pulse delay-2000"></div>
+      </div>
+
+      {/* Dynamic Header */}
+      <div className="relative z-10 bg-gradient-to-r from-slate-800/90 to-slate-700/90 backdrop-blur-xl border-b border-white/10 shadow-2xl">
         <div className="container mx-auto px-6 py-6">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-6">
               <Button 
                 variant="outline" 
                 onClick={() => navigate('/')}
-                className="uppercase tracking-wide font-semibold text-white px-8 py-3 rounded-lg bg-[#202328] shadow-lg hover:bg-[#2a2d33] transition duration-300"
-
+                className="group relative overflow-hidden bg-white/5 border-white/20 text-white hover:bg-white/10 hover:border-white/30 transition-all duration-300 backdrop-blur-sm"
               >
-                <Home className="h-4 w-4" />
-                Home
+                <div className="absolute inset-0 bg-gradient-to-r from-purple-500/20 to-blue-500/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                <Home className="h-4 w-4 mr-2 relative z-10" />
+                <span className="relative z-10">Home</span>
               </Button>
               
               <div className="flex items-center gap-4">
-                
-                <div>
-                  <h1 className="text-3xl font-bold">LuxLeads Dashboard</h1>
-                  <p className="text-white/80">Manage your luxury business contacts with style</p>
+                <div className="animate-fade-in">
+                  <h1 className="text-3xl font-bold bg-gradient-to-r from-white via-purple-200 to-blue-200 bg-clip-text text-transparent">
+                    LuxLeads Dashboard
+                  </h1>
+                  <p className="text-white/70 text-sm font-medium">Manage your luxury business contacts with style</p>
                 </div>
               </div>
             </div>
-            {/* className="uppercase tracking-wide font-semibold text-white px-8 py-3 rounded-lg bg-[#202328] shadow-lg hover:bg-[#2a2d33] transition duration-300"
- */}
-            <Badge variant="secondary" className="bg-[#202328] shadow-lg hover:bg-[#2a2d33] px-2 py-2 text-white border-white/30 animate-float">
+
+            <Badge 
+              variant="secondary" 
+              className="bg-gradient-to-r from-purple-500/20 to-blue-500/20 backdrop-blur-sm border-white/20 text-white shadow-lg animate-bounce"
+            >
+              <span className="bg-green-400 w-2 h-2 rounded-full mr-2 animate-pulse"></span>
               {displayData.length} contacts loaded
             </Badge>
           </div>
         </div>
       </div>
 
-      <div className="container mx-auto p-6 space-y-6">
+      <div className="relative z-10 container mx-auto p-6 space-y-8">
+        {/* Enhanced Tabs */}
+        <Tabs value={activeTab} onValueChange={setActiveTab} className="space-y-8">
+          <TabsList className="grid w-full grid-cols-3 bg-white/5 backdrop-blur-xl border border-white/10 shadow-2xl rounded-2xl p-2">
+            <TabsTrigger 
+              value="overview" 
+              className="relative data-[state=active]:bg-gradient-to-r data-[state=active]:from-purple-500 data-[state=active]:to-blue-500 data-[state=active]:text-white data-[state=active]:shadow-lg text-white/70 hover:text-white transition-all duration-300"
+            >
+              <span className="relative z-10">Overview</span>
+            </TabsTrigger>
+            <TabsTrigger 
+              value="data" 
+              className="relative data-[state=active]:bg-gradient-to-r data-[state=active]:from-purple-500 data-[state=active]:to-blue-500 data-[state=active]:text-white data-[state=active]:shadow-lg text-white/70 hover:text-white transition-all duration-300"
+            >
+              <span className="relative z-10">Data Table</span>
+            </TabsTrigger>
+            <TabsTrigger 
+              value="export" 
+              className="relative data-[state=active]:bg-gradient-to-r data-[state=active]:from-purple-500 data-[state=active]:to-blue-500 data-[state=active]:text-white data-[state=active]:shadow-lg text-white/70 hover:text-white transition-all duration-300"
+            >
+              <span className="relative z-10">Export</span>
+            </TabsTrigger>
+          </TabsList>
 
+          <TabsContent value="overview" className="space-y-8 animate-fade-in">
+            <div className="grid gap-8 md:grid-cols-3">
+              {/* Enhanced Filter Panel */}
+              <Card className="group relative overflow-hidden bg-white/5 backdrop-blur-xl border border-white/10 shadow-2xl hover:shadow-purple-500/10 hover:border-white/20 transition-all duration-500 animate-scale-in">
+                <div className="absolute inset-0 bg-gradient-to-br from-purple-500/5 to-blue-500/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+                <CardHeader className="relative z-10">
+                  <CardTitle className="text-center text-xl font-bold bg-gradient-to-r from-white via-purple-200 to-blue-200 bg-clip-text text-transparent">
+                    Smart Filters
+                  </CardTitle>
+                </CardHeader>
+                <CardContent className="relative z-10">
+                  <FilterPanel
+                    columns={['name', 'phone', 'description', 'category']}
+                    data={displayData}
+                    onFilterChange={handleAdvancedFilterChange}
+                  />
+                </CardContent>
+              </Card>
+              
+              {/* Enhanced Category Stats */}
+              <div className="md:col-span-2 animate-scale-in delay-200">
+                <CategoryStats data={displayData} />
+              </div>
+            </div>
+          </TabsContent>
 
-      {/* Main Dashboard Tabs */}
-      <Tabs value={activeTab} onValueChange={setActiveTab} className="space-y-6">
-        <TabsList className="grid w-full grid-cols-3 bg-gradient-card shadow-soft rounded-xl p-1">
-          <TabsTrigger value="overview" className="data-[state=active]:bg-[#202328] data-[state=active]:text-white">
-            Overview
-          </TabsTrigger>
-          <TabsTrigger value="data" className="data-[state=active]:bg-[#202328] data-[state=active]:text-white">
-            Data Table
-          </TabsTrigger>
-          <TabsTrigger value="export" className="data-[state=active]:bg-[#202328] data-[state=active]:text-white">
-            Export
-          </TabsTrigger>
-        </TabsList>
-
-        <TabsContent value="overview" className="space-y-6 animate-fade-in">
-          <div className="grid gap-6 md:grid-cols-3">
-            <Card className="bg-slate-800/50 shadow-soft border-0 animate-scale-in">
-              <CardHeader>
-                <CardTitle className="text-center bg-white bg-clip-text text-transparent">
-                  Filter Options
-                </CardTitle>
+          <TabsContent value="data" className="space-y-6 animate-fade-in">
+            <Card className="group relative overflow-hidden bg-white/5 backdrop-blur-xl border border-white/10 shadow-2xl hover:shadow-blue-500/10 hover:border-white/20 transition-all duration-500">
+              <div className="absolute inset-0 bg-gradient-to-br from-blue-500/5 to-purple-500/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+              
+              <CardHeader className="relative z-10 bg-gradient-to-r from-slate-800/50 to-slate-700/50 backdrop-blur-sm border-b border-white/10">
+                <div className="flex items-center justify-between">
+                  <CardTitle className="text-white text-xl font-bold">
+                    <span className="bg-gradient-to-r from-white to-blue-200 bg-clip-text text-transparent">
+                      Contact Database
+                    </span>
+                  </CardTitle>
+                  <Badge 
+                    variant="outline" 
+                    className="bg-white/10 border-white/20 text-white backdrop-blur-sm shadow-lg"
+                  >
+                    <span className="bg-blue-400 w-2 h-2 rounded-full mr-2 animate-pulse"></span>
+                    {displayData.length} contacts
+                  </Badge>
+                </div>
               </CardHeader>
-              <CardContent>
-                <FilterPanel
-                  columns={['name', 'phone', 'description', 'category']}
-                  data={displayData}
-                  onFilterChange={handleAdvancedFilterChange}
-                />
+              
+              <CardContent className="relative z-10 p-6">
+                <div className="overflow-hidden rounded-xl border border-white/10 bg-white/5 backdrop-blur-sm">
+                  <DataTable 
+                    data={displayData}
+                    columns={displayData.length > 0 ? Object.keys(displayData[0]) : []}
+                  />
+                </div>
               </CardContent>
             </Card>
-            
-            <div className="md:col-span-2">
-              <CategoryStats data={displayData} />
-            </div>
-          </div>
-        </TabsContent>
+          </TabsContent>
 
-        <TabsContent value="data" className="space-y-4 animate-fade-in">
-          <Card className="bg-gradient-card shadow-soft border-0">
-            <CardHeader className="bg-[#1b2030] rounded-t-lg">
-              <div className="flex items-center justify-between">
-                <CardTitle className="text-white">Contact Data</CardTitle>
-                <Badge variant="outline" className="bg-white/50 border-secondary-foreground/20">
-                  {displayData.length} contacts
-                </Badge>
-              </div>
-            </CardHeader>
-            <CardContent className="p-6">
-              <DataTable 
-                data={displayData}
-                columns={displayData.length > 0 ? Object.keys(displayData[0]) : []}
-              />
-            </CardContent>
-          </Card>
-        </TabsContent>
-
-        <TabsContent value="export" className="space-y-4 animate-fade-in">
-          <Card className="bg-gradient-card shadow-colorful border-0 text-center p-8">
-            <CardHeader>
-              <CardTitle className="text-2xl bg-[#1b2030] bg-clip-text text-transparent mb-4">
-                Export Your Data
-              </CardTitle>
-              <CardDescription className="text-lg text-muted-foreground">
-                Download your contact data in your preferred format
-              </CardDescription>
-            </CardHeader>
-            <CardContent>
-              <ExportButton 
-                data={displayData}
-                filename="luxleads-contacts"
-              />
-            </CardContent>
-          </Card>
-        </TabsContent>
-      </Tabs>
+          <TabsContent value="export" className="space-y-6 animate-fade-in">
+            <Card className="group relative overflow-hidden bg-white/5 backdrop-blur-xl border border-white/10 shadow-2xl hover:shadow-green-500/10 hover:border-white/20 transition-all duration-500 text-center p-12">
+              <div className="absolute inset-0 bg-gradient-to-br from-green-500/5 to-blue-500/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+              
+              <CardHeader className="relative z-10">
+                <div className="w-20 h-20 bg-gradient-to-r from-green-400 to-blue-500 rounded-full flex items-center justify-center mx-auto mb-6 shadow-lg group-hover:scale-110 transition-transform duration-300">
+                  <Download className="h-10 w-10 text-white" />
+                </div>
+                <CardTitle className="text-3xl font-bold bg-gradient-to-r from-white via-green-200 to-blue-200 bg-clip-text text-transparent mb-4">
+                  Export Your Data
+                </CardTitle>
+                <CardDescription className="text-lg text-white/70 font-medium">
+                  Download your contact data in your preferred format
+                </CardDescription>
+              </CardHeader>
+              
+              <CardContent className="relative z-10">
+                <div className="transform group-hover:scale-105 transition-transform duration-300">
+                  <ExportButton 
+                    data={displayData}
+                    filename="luxleads-contacts"
+                  />
+                </div>
+              </CardContent>
+            </Card>
+          </TabsContent>
+        </Tabs>
       </div>
     </div>
   );
