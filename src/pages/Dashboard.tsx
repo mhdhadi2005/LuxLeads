@@ -49,6 +49,7 @@ useEffect(() => {
   const [data, setData] = useState<Contact[]>([]);
   const [filteredData, setFilteredData] = useState<Contact[]>([]);
   const [activeTab, setActiveTab] = useState("overview");
+  const [advancedFilters, setAdvancedFilters] = useState<Record<string, any>>({});
   
   // Process business data on component mount
   const processedData = businessData.map(contact => ({
@@ -95,9 +96,10 @@ useEffect(() => {
 
   // Enhanced filter handler for FilterPanel
   const handleAdvancedFilterChange = (newFilters: Record<string, any>) => {
-    let filtered = data.length > 0 ? data : processedData;
+    setAdvancedFilters(newFilters);
+    let filtered = processedData; // Always start with the full processed data
     
-    // Apply each filter
+    // Apply each advanced filter
     Object.keys(newFilters).forEach(column => {
       const filterValue = newFilters[column];
       
@@ -119,6 +121,28 @@ useEffect(() => {
       }
     });
     
+    // Apply basic filters on top of advanced filters
+    if (filters.category !== "all") {
+      filtered = filtered.filter(contact => contact.category === filters.category);
+    }
+    
+    if (filters.search) {
+      filtered = filtered.filter(contact =>
+        contact.name.toLowerCase().includes(filters.search.toLowerCase()) ||
+        contact.phone.includes(filters.search) ||
+        contact.description.toLowerCase().includes(filters.search.toLowerCase())
+      );
+    }
+    
+    if (filters.country !== "all") {
+      filtered = filtered.filter(contact => {
+        if (filters.country === "uae") return contact.phone.startsWith("+971");
+        if (filters.country === "qatar") return contact.phone.startsWith("+974");
+        if (filters.country === "eu") return !contact.phone.startsWith("+971") && !contact.phone.startsWith("+974");
+        return true;
+      });
+    }
+    
     setFilteredData(filtered);
   };
 
@@ -127,7 +151,10 @@ useEffect(() => {
     setFilteredData(data.length > 0 ? data : processedData);
   };
 
-  const displayData = data.length > 0 ? filteredData : processedData;
+  // Use filtered data if any filters are applied, otherwise show all processed data
+  const displayData = filteredData.length > 0 || Object.keys(advancedFilters).length > 0 || filters.category !== "all" || filters.search !== "" || filters.country !== "all" 
+    ? filteredData 
+    : processedData;
   
   return (
     <div className="min-h-screen bg-gradient-background" style={{ backgroundImage: `url(${customBG})` }}>
