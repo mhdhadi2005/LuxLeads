@@ -157,42 +157,57 @@ useEffect(() => {
     : processedData;
   
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-purple-900/20 to-slate-900 relative overflow-hidden">
-      {/* Animated Background Elements */}
+    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-slate-800 to-black relative overflow-hidden">
+      {/* Floating Particles Background */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-purple-500/10 rounded-full blur-3xl animate-pulse"></div>
-        <div className="absolute top-3/4 right-1/4 w-96 h-96 bg-blue-500/10 rounded-full blur-3xl animate-pulse delay-1000"></div>
-        <div className="absolute top-1/2 left-1/2 w-96 h-96 bg-indigo-500/10 rounded-full blur-3xl animate-pulse delay-2000"></div>
+        {Array.from({ length: 20 }).map((_, i) => (
+          <div
+            key={i}
+            className="absolute bg-white/5 rounded-full animate-float"
+            style={{
+              left: `${Math.random() * 100}%`,
+              top: `${Math.random() * 100}%`,
+              width: `${Math.random() * 4 + 2}px`,
+              height: `${Math.random() * 4 + 2}px`,
+              animationDelay: `${Math.random() * 3}s`,
+              animationDuration: `${Math.random() * 3 + 2}s`,
+            }}
+          />
+        ))}
       </div>
 
+      {/* Gradient Overlays */}
+      <div className="absolute inset-0 bg-gradient-to-br from-purple-900/20 via-transparent to-blue-900/20 pointer-events-none"></div>
+      <div className="absolute inset-0 bg-gradient-to-tl from-slate-900/50 via-transparent to-slate-800/50 pointer-events-none"></div>
+
       {/* Dynamic Header */}
-      <div className="relative z-10 bg-gradient-to-r from-slate-800/90 to-slate-700/90 backdrop-blur-xl border-b border-white/10 shadow-2xl">
+      <div className="relative z-10 bg-slate-900/80 backdrop-blur-xl border-b border-slate-700/50 shadow-2xl">
         <div className="container mx-auto px-6 py-6">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-6">
               <Button 
                 variant="outline" 
                 onClick={() => navigate('/')}
-                className="group relative overflow-hidden bg-white/5 border-white/20 text-white hover:bg-white/10 hover:border-white/30 transition-all duration-300 backdrop-blur-sm"
+                className="group relative overflow-hidden bg-slate-800/50 border-slate-600 text-slate-200 hover:bg-slate-700 hover:border-slate-500 transition-all duration-300 backdrop-blur-sm"
               >
-                <div className="absolute inset-0 bg-gradient-to-r from-purple-500/20 to-blue-500/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                <div className="absolute inset-0 bg-gradient-to-r from-purple-600/20 to-blue-600/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
                 <Home className="h-4 w-4 mr-2 relative z-10" />
                 <span className="relative z-10">Home</span>
               </Button>
               
               <div className="flex items-center gap-4">
                 <div className="animate-fade-in">
-                  <h1 className="text-3xl font-bold bg-gradient-to-r from-white via-purple-200 to-blue-200 bg-clip-text text-transparent">
+                  <h1 className="text-3xl font-bold bg-gradient-to-r from-slate-100 via-slate-200 to-slate-300 bg-clip-text text-transparent">
                     LuxLeads Dashboard
                   </h1>
-                  <p className="text-white/70 text-sm font-medium">Manage your luxury business contacts with style</p>
+                  <p className="text-slate-400 text-sm font-medium">Manage your luxury business contacts with style</p>
                 </div>
               </div>
             </div>
 
             <Badge 
               variant="secondary" 
-              className="bg-gradient-to-r from-purple-500/20 to-blue-500/20 backdrop-blur-sm border-white/20 text-white shadow-lg animate-bounce"
+              className="bg-slate-800/50 backdrop-blur-sm border-slate-600 text-slate-200 shadow-lg animate-bounce"
             >
               <span className="bg-green-400 w-2 h-2 rounded-full mr-2 animate-pulse"></span>
               {displayData.length} contacts loaded
@@ -204,22 +219,22 @@ useEffect(() => {
       <div className="relative z-10 container mx-auto p-6 space-y-8">
         {/* Enhanced Tabs */}
         <Tabs value={activeTab} onValueChange={setActiveTab} className="space-y-8">
-          <TabsList className="grid w-full grid-cols-3 bg-white/5 backdrop-blur-xl border border-white/10 shadow-2xl rounded-2xl p-2">
+          <TabsList className="grid w-full grid-cols-3 bg-slate-800/50 backdrop-blur-xl border border-slate-600 shadow-2xl rounded-2xl p-2">
             <TabsTrigger 
               value="overview" 
-              className="relative data-[state=active]:bg-gradient-to-r data-[state=active]:from-purple-500 data-[state=active]:to-blue-500 data-[state=active]:text-white data-[state=active]:shadow-lg text-white/70 hover:text-white transition-all duration-300"
+              className="relative data-[state=active]:bg-gradient-to-r data-[state=active]:from-slate-700 data-[state=active]:to-slate-600 data-[state=active]:text-slate-100 data-[state=active]:shadow-lg text-slate-400 hover:text-slate-200 transition-all duration-300"
             >
               <span className="relative z-10">Overview</span>
             </TabsTrigger>
             <TabsTrigger 
               value="data" 
-              className="relative data-[state=active]:bg-gradient-to-r data-[state=active]:from-purple-500 data-[state=active]:to-blue-500 data-[state=active]:text-white data-[state=active]:shadow-lg text-white/70 hover:text-white transition-all duration-300"
+              className="relative data-[state=active]:bg-gradient-to-r data-[state=active]:from-slate-700 data-[state=active]:to-slate-600 data-[state=active]:text-slate-100 data-[state=active]:shadow-lg text-slate-400 hover:text-slate-200 transition-all duration-300"
             >
               <span className="relative z-10">Data Table</span>
             </TabsTrigger>
             <TabsTrigger 
               value="export" 
-              className="relative data-[state=active]:bg-gradient-to-r data-[state=active]:from-purple-500 data-[state=active]:to-blue-500 data-[state=active]:text-white data-[state=active]:shadow-lg text-white/70 hover:text-white transition-all duration-300"
+              className="relative data-[state=active]:bg-gradient-to-r data-[state=active]:from-slate-700 data-[state=active]:to-slate-600 data-[state=active]:text-slate-100 data-[state=active]:shadow-lg text-slate-400 hover:text-slate-200 transition-all duration-300"
             >
               <span className="relative z-10">Export</span>
             </TabsTrigger>
@@ -228,10 +243,10 @@ useEffect(() => {
           <TabsContent value="overview" className="space-y-8 animate-fade-in">
             <div className="grid gap-8 md:grid-cols-3">
               {/* Enhanced Filter Panel */}
-              <Card className="group relative overflow-hidden bg-white/5 backdrop-blur-xl border border-white/10 shadow-2xl hover:shadow-purple-500/10 hover:border-white/20 transition-all duration-500 animate-scale-in">
-                <div className="absolute inset-0 bg-gradient-to-br from-purple-500/5 to-blue-500/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+              <Card className="group relative overflow-hidden bg-slate-800/30 backdrop-blur-xl border border-slate-600/50 shadow-2xl hover:shadow-purple-500/10 hover:border-slate-500 transition-all duration-500 animate-scale-in">
+                <div className="absolute inset-0 bg-gradient-to-br from-slate-700/20 to-slate-600/20 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
                 <CardHeader className="relative z-10">
-                  <CardTitle className="text-center text-xl font-bold bg-gradient-to-r from-white via-purple-200 to-blue-200 bg-clip-text text-transparent">
+                  <CardTitle className="text-center text-xl font-bold bg-gradient-to-r from-slate-100 via-slate-200 to-slate-300 bg-clip-text text-transparent">
                     Smart Filters
                   </CardTitle>
                 </CardHeader>
@@ -252,28 +267,28 @@ useEffect(() => {
           </TabsContent>
 
           <TabsContent value="data" className="space-y-6 animate-fade-in">
-            <Card className="group relative overflow-hidden bg-white/5 backdrop-blur-xl border border-white/10 shadow-2xl hover:shadow-blue-500/10 hover:border-white/20 transition-all duration-500">
-              <div className="absolute inset-0 bg-gradient-to-br from-blue-500/5 to-purple-500/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+            <Card className="group relative overflow-hidden bg-slate-800/30 backdrop-blur-xl border border-slate-600/50 shadow-2xl hover:shadow-blue-500/10 hover:border-slate-500 transition-all duration-500">
+              <div className="absolute inset-0 bg-gradient-to-br from-slate-700/20 to-slate-600/20 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
               
-              <CardHeader className="relative z-10 bg-gradient-to-r from-slate-800/50 to-slate-700/50 backdrop-blur-sm border-b border-white/10">
+              <CardHeader className="relative z-10 bg-slate-800/50 backdrop-blur-sm border-b border-slate-600/50">
                 <div className="flex items-center justify-between">
-                  <CardTitle className="text-white text-xl font-bold">
-                    <span className="bg-gradient-to-r from-white to-blue-200 bg-clip-text text-transparent">
+                  <CardTitle className="text-slate-100 text-xl font-bold">
+                    <span className="bg-gradient-to-r from-slate-100 to-slate-300 bg-clip-text text-transparent">
                       Contact Database
                     </span>
                   </CardTitle>
                   <Badge 
                     variant="outline" 
-                    className="bg-white/10 border-white/20 text-white backdrop-blur-sm shadow-lg"
+                    className="bg-slate-700/50 border-slate-500 text-slate-200 backdrop-blur-sm shadow-lg"
                   >
-                    <span className="bg-blue-400 w-2 h-2 rounded-full mr-2 animate-pulse"></span>
+                    <span className="bg-green-400 w-2 h-2 rounded-full mr-2 animate-pulse"></span>
                     {displayData.length} contacts
                   </Badge>
                 </div>
               </CardHeader>
               
               <CardContent className="relative z-10 p-6">
-                <div className="overflow-hidden rounded-xl border border-white/10 bg-white/5 backdrop-blur-sm">
+                <div className="overflow-hidden rounded-xl border border-slate-600/50 bg-slate-800/20 backdrop-blur-sm">
                   <DataTable 
                     data={displayData}
                     columns={displayData.length > 0 ? Object.keys(displayData[0]) : []}
@@ -284,17 +299,17 @@ useEffect(() => {
           </TabsContent>
 
           <TabsContent value="export" className="space-y-6 animate-fade-in">
-            <Card className="group relative overflow-hidden bg-white/5 backdrop-blur-xl border border-white/10 shadow-2xl hover:shadow-green-500/10 hover:border-white/20 transition-all duration-500 text-center p-12">
-              <div className="absolute inset-0 bg-gradient-to-br from-green-500/5 to-blue-500/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+            <Card className="group relative overflow-hidden bg-slate-800/30 backdrop-blur-xl border border-slate-600/50 shadow-2xl hover:shadow-green-500/10 hover:border-slate-500 transition-all duration-500 text-center p-12">
+              <div className="absolute inset-0 bg-gradient-to-br from-slate-700/20 to-slate-600/20 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
               
               <CardHeader className="relative z-10">
-                <div className="w-20 h-20 bg-gradient-to-r from-green-400 to-blue-500 rounded-full flex items-center justify-center mx-auto mb-6 shadow-lg group-hover:scale-110 transition-transform duration-300">
-                  <Download className="h-10 w-10 text-white" />
+                <div className="w-20 h-20 bg-gradient-to-r from-slate-600 to-slate-500 rounded-full flex items-center justify-center mx-auto mb-6 shadow-lg group-hover:scale-110 transition-transform duration-300">
+                  <Download className="h-10 w-10 text-slate-100" />
                 </div>
-                <CardTitle className="text-3xl font-bold bg-gradient-to-r from-white via-green-200 to-blue-200 bg-clip-text text-transparent mb-4">
+                <CardTitle className="text-3xl font-bold bg-gradient-to-r from-slate-100 via-slate-200 to-slate-300 bg-clip-text text-transparent mb-4">
                   Export Your Data
                 </CardTitle>
-                <CardDescription className="text-lg text-white/70 font-medium">
+                <CardDescription className="text-lg text-slate-300 font-medium">
                   Download your contact data in your preferred format
                 </CardDescription>
               </CardHeader>
