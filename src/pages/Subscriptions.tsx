@@ -304,7 +304,6 @@ const Subscriptions = () => {
             <div>
               <p>• Payments processed securely via BitPay</p>
               <p>• Support for Bitcoin, Ethereum, and other major cryptocurrencies</p>
-              <p>• <span className="text-green-600 font-semibold">Access code 777777 provided after payment</span></p>
             </div>
             <div>
               <p>• Instant activation upon payment confirmation</p>
