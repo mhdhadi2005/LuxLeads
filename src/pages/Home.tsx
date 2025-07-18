@@ -70,9 +70,9 @@ const Home = () => {
               {/* Glowing effect behind title */}
               <div className="absolute inset-0 bg-gradient-to-r from-purple-400 to-blue-400 rounded-xl blur-xl opacity-20 animate-pulse"></div>
               <h2 className="relative text-3xl lg:text-4xl font-bold text-white mb-4 tracking-tight">
-                Premium Contact Management
+                Premium Lead Management
               </h2>
-              <p className="text-gray-300 mb-8 text-lg">Subscribe → Pay with Crypto → Get Access Code → Enter Dashboard</p>
+              <p className="text-gray-300 mb-8 text-lg">Subscribe → Pay  → Get Access Code → Enter Dashboard</p>
             </div>
             
             <div className="space-y-6">
