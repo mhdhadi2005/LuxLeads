@@ -11,6 +11,7 @@ import { CategoryStats } from "@/components/CategoryStats";
 import { ExportButton } from "@/components/ExportButton";
 import { classifyBusiness, addClassificationToData, getCategoryStats } from "@/utils/classifier";
 import customBG from "@/assets/cover.png";
+import AccessCodeModal from "@/components/AccessCodeModal";
 import * as XLSX from "xlsx";
 
 const luxLeadsLogo = "/lovable-uploads/72645a97-d464-43a4-b3ff-822d41ea5a10.png";
@@ -24,6 +25,8 @@ interface Contact {
 
 const Dashboard = () => {
   const navigate = useNavigate();
+  const [hasAccess, setHasAccess] = useState(false);
+  const [showAccessModal, setShowAccessModal] = useState(true);
 
 const [businessData, setBusinessData] = useState([]);
 
@@ -155,6 +158,41 @@ useEffect(() => {
   const displayData = filteredData.length > 0 || Object.keys(advancedFilters).length > 0 || filters.category !== "all" || filters.search !== "" || filters.country !== "all" 
     ? filteredData 
     : processedData;
+
+  const handleAccessSuccess = () => {
+    setHasAccess(true);
+    setShowAccessModal(false);
+  };
+
+  const handleAccessClose = () => {
+    setShowAccessModal(false);
+    navigate('/');
+  };
+
+  // If user doesn't have access, show the access modal
+  if (!hasAccess) {
+    return (
+      <>
+        <AccessCodeModal
+          isOpen={showAccessModal}
+          onClose={handleAccessClose}
+          onSuccess={handleAccessSuccess}
+        />
+        {/* Optional: Show a loading/waiting screen when modal is closed but no access */}
+        {!showAccessModal && (
+          <div className="min-h-screen bg-gradient-to-br from-slate-900 via-slate-800 to-black flex items-center justify-center">
+            <div className="text-center text-white">
+              <h2 className="text-2xl font-bold mb-4">Access Required</h2>
+              <p className="text-slate-400 mb-6">You need a valid access code to view this dashboard.</p>
+              <Button onClick={() => navigate('/')} variant="outline">
+                Return to Home
+              </Button>
+            </div>
+          </div>
+        )}
+      </>
+    );
+  }
   
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-900 via-slate-800 to-black relative overflow-hidden">
