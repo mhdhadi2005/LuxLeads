@@ -76,11 +76,11 @@ const Home = () => {
             
             <div className="space-y-6">
               <Button
-                onClick={() => setIsCodeModalOpen(true)}
+                onClick={() => navigate('/auth')}
                 size="lg"
-                className="group w-full lg:w-auto uppercase tracking-wide font-semibold text-white px-12 py-4 rounded-xl bg-gradient-to-r from-purple-600 via-purple-500 to-blue-600 hover:from-purple-700 hover:via-purple-600 hover:to-blue-700 shadow-xl hover:shadow-purple-500/50 transition-all duration-500 transform hover:scale-110 hover:-rotate-1 relative overflow-hidden">
+                className="group w-full lg:w-auto uppercase tracking-wide font-semibold text-white px-12 py-4 rounded-xl bg-gradient-primary hover:opacity-90 shadow-colorful transition-all duration-500 transform hover:scale-110 hover:-rotate-1 relative overflow-hidden">
                 <span className="absolute inset-0 bg-gradient-to-r from-white/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></span>
-                <span className="relative">🚀 Launch Dashboard</span>
+                <span className="relative">🚀 Get Started</span>
               </Button>
               
               <div className="flex items-center justify-center space-x-4 text-gray-300">
@@ -90,13 +90,21 @@ const Home = () => {
               </div>
               
               <Button
-                onClick={handleWhatsAppRedirect}
+                onClick={() => setIsCodeModalOpen(true)}
                 variant="outline"
                 size="lg"
-                className="group w-full lg:w-auto border-2 border-green-500/70 bg-green-500/10 text-green-400 hover:bg-green-500 hover:text-white hover:border-green-400 px-8 py-4 rounded-xl transition-all duration-500 transform hover:scale-110 hover:rotate-1 relative overflow-hidden shadow-lg hover:shadow-green-500/30">
-                <span className="absolute inset-0 bg-gradient-to-r from-green-400/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></span>
-                <MessageCircle className="mr-2 h-5 w-5 relative z-10" />
-                <span className="relative z-10">Don't Have Code? Contact Us</span>
+                className="group w-full lg:w-auto border-2 border-accent/70 bg-accent/10 text-accent hover:bg-accent hover:text-accent-foreground hover:border-accent px-8 py-4 rounded-xl transition-all duration-500 transform hover:scale-110 hover:rotate-1 relative overflow-hidden shadow-lg hover:shadow-accent/30">
+                <span className="absolute inset-0 bg-gradient-to-r from-accent/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></span>
+                <span className="relative z-10">🔑 Have Access Code?</span>
+              </Button>
+
+              <Button
+                onClick={handleWhatsAppRedirect}
+                variant="ghost"
+                size="lg"
+                className="group w-full lg:w-auto text-muted-foreground hover:text-foreground px-8 py-4 rounded-xl transition-all duration-500">
+                <MessageCircle className="mr-2 h-4 w-4" />
+                <span>Contact Support</span>
               </Button>
             </div>
           </div>

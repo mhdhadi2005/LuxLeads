@@ -1,1 +1,7 @@
 project_id = "szmgjdkrnpypsxlemyqc"
+
+[functions.create-bitpay-payment]
+verify_jwt = true
+
+[functions.payment-callback]
+verify_jwt = false
