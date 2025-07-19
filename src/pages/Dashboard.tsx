@@ -31,23 +31,32 @@ const Dashboard = () => {
 const [businessData, setBusinessData] = useState([]);
 
 useEffect(() => {
+  const accessGranted = localStorage.getItem("luxleads-access") === "true";
+  setHasAccess(accessGranted);
+
+  if (!accessGranted) return;
+
   const fetchExcelData = async () => {
-    const response = await fetch("/webdata.xlsx"); 
-    const arrayBuffer = await response.arrayBuffer();
-    const workbook = XLSX.read(arrayBuffer, { type: "array" });
-    const sheetName = workbook.SheetNames[0];
-    const worksheet = workbook.Sheets[sheetName];
-    const jsonData = XLSX.utils.sheet_to_json(worksheet, {
-      header: ["name", "phone", "description"],
-      range: 2 // skip header row if needed
+    try {
+      const response = await fetch("/webdata.xlsx");
+      const arrayBuffer = await response.arrayBuffer();
+      const workbook = XLSX.read(arrayBuffer, { type: "array" });
+      const sheetName = workbook.SheetNames[0];
+      const worksheet = workbook.Sheets[sheetName];
+      const jsonData = XLSX.utils.sheet_to_json(worksheet, {
+        header: ["name", "phone", "description"],
+        range: 2 // skips first 2 rows
       });
 
-
-    setBusinessData(jsonData); // expects columns: name, phone, description
+      setBusinessData(jsonData); // sets parsed data
+    } catch (err) {
+      console.error("Error loading Excel file:", err);
+    }
   };
 
   fetchExcelData();
 }, []);
+
 
   const [data, setData] = useState<Contact[]>([]);
   const [filteredData, setFilteredData] = useState<Contact[]>([]);

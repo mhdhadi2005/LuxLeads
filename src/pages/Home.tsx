@@ -10,8 +10,10 @@ const Home = () => {
   const [isCodeModalOpen, setIsCodeModalOpen] = useState(false);
 
   const handleDashboardAccess = () => {
-    navigate("/dashboard");
+  localStorage.setItem("luxleads-access", "true");
+  navigate("/dashboard");
   };
+
 
   const handleWhatsAppRedirect = () => {
     window.open("https://wa.me/message/67X542H3PRCLJ1", "_blank");

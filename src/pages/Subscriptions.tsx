@@ -225,12 +225,15 @@ const Subscriptions = () => {
                 <p className="opacity-90">Manage your luxury contacts and analytics</p>
               </div>
               <Button
-                onClick={() => navigate('/dashboard')}
+                onClick={() => {
+                  localStorage.setItem("luxleads-access", "true");
+                  navigate('/dashboard');
+                }}
                 variant="secondary"
-                size="lg"
-              >
+                size="lg">
                 Open Dashboard
               </Button>
+
             </div>
           </Card>
         </div>
